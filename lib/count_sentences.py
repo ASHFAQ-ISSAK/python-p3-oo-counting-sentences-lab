@@ -1,26 +1,25 @@
 #!/usr/bin/env python3
 class MyString:
-    """MyString in count_sentences.py"""
-
     def __init__(self, value=""):
         if not isinstance(value, str):
-            print("The value must be a string.")
+            raise ValueError("The value must be a string.")
         self.value = value
 
     def is_sentence(self):
-        if self.value.endswith("."):
-            return True
-        return False
+        return self.value.endswith(".")
 
     def is_question(self):
-        if self.value.endswith("?"):
-            return True
-        return False
+        return self.value.endswith("?")
 
     def is_exclamation(self):
-        if self.value.endswith("!"):
-            return True
-        return False
+        return self.value.endswith("!")
 
     def count_sentences(self):
-        return self.value.count(".") + self.value.count("?") + self.value.count("!")
+        cleaned_value = self.value.replace("?", ".").replace("!", ".")
+
+        # Split the cleaned value using "." as the separator and remove any empty strings
+        sentences = [
+            sentence for sentence in cleaned_value.split(".") if sentence.strip()
+        ]
+
+        return len(sentences)
